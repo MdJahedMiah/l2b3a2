@@ -1,10 +1,18 @@
 "use strict";
-const express = require('express');
-const app = express();
-const port = 3000;
-app.get('/', (req, res) => {
-    res.send('Hello World!');
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const cors_1 = __importDefault(require("cors"));
+const express_1 = __importDefault(require("express"));
+const product_1 = __importDefault(require("./../src/app/routes/product"));
+const order_1 = __importDefault(require("./../src/app/routes/order"));
+const app = (0, express_1.default)();
+app.use(express_1.default.json());
+app.use((0, cors_1.default)());
+app.use('/api', product_1.default);
+app.use('/api', order_1.default);
+app.use((req, res) => {
+    res.status(404).json({ success: false, message: 'Route not found' });
 });
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
-});
+exports.default = app;
